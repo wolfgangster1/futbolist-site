@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partners — The Futbolist</title>
+  <meta name="description" content="Partner with The Futbolist. Be the brand that believed in them before they got signed. Season One forming now." />
+
+  <link rel="canonical" href="https://www.thefutbolist.com/partners/" />
+  <link rel="icon" type="image/png" href="/assets/wolf-crest.png" />
+  <link rel="apple-touch-icon" href="/assets/wolf-crest.png" />
+
+  <meta property="og:title" content="Partners — The Futbolist" />
+  <meta property="og:description" content="Be the brand that believed in them before they got signed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.thefutbolist.com/partners/" />
+  <meta property="og:image" content="https://www.thefutbolist.com/assets/wolf-crest.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blackout:    #0E0E0F;
+      --bone:        #F4EFE4;
+      --ember:       #E8552A;
+      --ember-deep:  #B5301A;
+      --carbon:      #16191B;
+      --ash:         #74787C;
+      --ash-dim:     #3A3D40;
+      --bone-dim:    rgba(244,239,228,0.55);
+      --line:        rgba(244,239,228,0.12);
+
+      --font-blackletter: 'UnifrakturCook', serif;
+      --font-display:     'Anton', sans-serif;
+      --font-condensed:   'Oswald', sans-serif;
+      --font-body:        'Inter', sans-serif;
+
+      --col-max: 1080px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--blackout);
+      color: var(--bone);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--col-max);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    /* ── TOPBAR ──────────────────────────────── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 clamp(20px, 5vw, 60px);
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(14,14,15,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .topbar-crest { height: 32px; width: auto; object-fit: contain; }
+    .topbar-wordmark {
+      font-family: var(--font-blackletter);
+      font-size: 18px;
+      color: var(--bone);
+      line-height: 1;
+    }
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .topbar-nav a {
+      font-family: var(--font-condensed);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bone-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topbar-nav a:hover { color: var(--bone); }
+    .topbar-nav .nav-cta { color: var(--ember); }
+    .topbar-nav .nav-cta:hover { color: #fff; }
+
+    .topbar-burger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+    }
+    .topbar-burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--bone);
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
+    .topbar-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .topbar-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .topbar-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 62px; left: 0; right: 0; bottom: 0;
+      background: rgba(14,14,15,0.97);
+      backdrop-filter: blur(16px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: var(--font-condensed);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bone);
+      text-decoration: none;
+    }
+    .mobile-nav .nav-cta { color: var(--ember); }
+
+    /* ── PAGE HEADER ─────────────────────────── */
+    .page-header {
+      padding: 120px 0 clamp(56px, 7vw, 80px);
+      border-bottom: 1px solid var(--line);
+    }
+    .page-eyebrow {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 18px;
+      padding-left: 0.38em;
+    }
+    .page-headline {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7.5vw, 104px);
+      line-height: 0.92;
+      text-transform: uppercase;
+      color: var(--bone);
+      letter-spacing: 0.01em;
+      margin-bottom: 28px;
+      max-width: 800px;
+    }
+    .page-subline {
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: var(--bone-dim);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+
+    /* ── REVEAL ──────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── SECTION SHARED ──────────────────────── */
+    .section {
+      padding: clamp(64px, 9vw, 110px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-label {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ash);
+      margin-bottom: 20px;
+    }
+    .section-head {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 0.93;
+      text-transform: uppercase;
+      color: var(--bone);
+      letter-spacing: 0.01em;
+      margin-bottom: 28px;
+    }
+    .body-text {
+      font-size: clamp(15px, 1.6vw, 17px);
+      color: var(--bone-dim);
+      line-height: 1.75;
+      max-width: 640px;
+    }
+    .body-text p + p { margin-top: 18px; }
+    .body-text strong { color: var(--bone); font-weight: 600; }
+
+    /* ── OPPORTUNITY (2-col) ─────────────────── */
+    .opportunity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .opportunity-pull {
+      padding: 32px;
+      background: var(--carbon);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .pull-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .pull-stat:last-child { padding-bottom: 0; border-bottom: none; }
+    .pull-stat-label {
+      font-family: var(--font-condensed);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+    .pull-stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 34px);
+      text-transform: uppercase;
+      color: var(--bone);
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .pull-stat-desc {
+      font-size: 14px;
+      color: var(--bone-dim);
+      line-height: 1.5;
+    }
+
+    /* ── PARTNERSHIP TYPES ───────────────────── */
+    .types-stack {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+    }
+    .type-row {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 40px;
+      align-items: baseline;
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+    }
+    .type-row:last-child { border-bottom: 1px solid var(--line); }
+    .type-name {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 36px);
+      text-transform: uppercase;
+      color: var(--bone);
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .type-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .type-desc {
+      font-size: clamp(15px, 1.5vw, 17px);
+      color: var(--bone-dim);
+      line-height: 1.65;
+    }
+    .type-note {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+    .type-price {
+      font-family: var(--font-condensed);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bone);
+      margin-top: 10px;
+    }
+    .type-price span {
+      color: var(--ash);
+      font-weight: 400;
+    }
+    .types-close {
+      margin-top: 32px;
+      font-size: 15px;
+      color: var(--bone-dim);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .types-close strong { color: var(--bone); font-weight: 600; }
+
+    /* ── FOUNDING WINDOW ─────────────────────── */
+    .window-block {
+      background: var(--carbon);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: clamp(40px, 5vw, 60px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+    }
+    .window-eyebrow {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ash);
+      margin-bottom: 12px;
+    }
+    .window-head {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 46px);
+      text-transform: uppercase;
+      color: var(--bone);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin-bottom: 18px;
+    }
+    .window-body {
+      font-size: 15px;
+      color: var(--bone-dim);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+    .window-cta { flex-shrink: 0; }
+
+    /* ── CONTACT ─────────────────────────────── */
+    .contact-section {
+      padding: clamp(80px, 10vw, 120px) 0;
+      text-align: center;
+    }
+    .contact-head {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 72px);
+      text-transform: uppercase;
+      color: var(--bone);
+      line-height: 0.93;
+      letter-spacing: 0.01em;
+      margin-bottom: 18px;
+    }
+    .contact-body {
+      font-size: 17px;
+      color: var(--bone-dim);
+      line-height: 1.65;
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-condensed);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,85,42,0.3);
+      padding-bottom: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-email:hover { color: var(--bone); border-color: var(--bone); }
+    .contact-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--ash);
+      font-style: italic;
+    }
+
+    /* ── BUTTON ──────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      background: var(--ember);
+      color: var(--blackout);
+      font-family: var(--font-condensed);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--ember-deep); transform: translateY(-1px); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: clamp(40px, 5vw, 60px) clamp(20px, 5vw, 60px);
+    }
+    .footer-inner {
+      max-width: var(--col-max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .footer-wordmark {
+      font-family: var(--font-blackletter);
+      font-size: 20px;
+      color: var(--bone);
+      line-height: 1;
+    }
+    .footer-nav { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-nav a {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ash);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--bone); }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 820px) {
+      .topbar-nav { display: none; }
+      .topbar-burger { display: flex; }
+      .opportunity-grid { grid-template-columns: 1fr; gap: 36px; }
+      .type-row { grid-template-columns: 1fr; gap: 10px; }
+      .window-block { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 520px) {
+      .topbar-wordmark { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+      body::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ════════════════════════════════════ -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="The Futbolist home">
+    <img class="topbar-crest" src="/assets/wolf-crest.png" alt="" aria-hidden="true" />
+    <span class="topbar-wordmark">The Futbolist</span>
+  </a>
+  <nav aria-label="Primary navigation">
+    <ul class="topbar-nav">
+      <li><a href="/#watch">Watch</a></li>
+      <li><a href="/#house">The House</a></li>
+      <li><a href="/apply/">Apply</a></li>
+      <li><a href="/beyourownagent/" class="nav-cta">Be Your Own Agent</a></li>
+    </ul>
+  </nav>
+  <button class="topbar-burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <a href="/#watch">Watch</a>
+  <a href="/#house">The House</a>
+  <a href="/apply/">Apply</a>
+  <a href="/beyourownagent/" class="nav-cta">Be Your Own Agent</a>
+</nav>
+
+<!-- ══ PAGE HEADER ════════════════════════════════ -->
+<div class="page-header">
+  <div class="container">
+    <p class="page-eyebrow">Work With Us</p>
+    <h1 class="page-headline">Be the brand that believed first.</h1>
+    <p class="page-subline">America's first free-agent football team. 30 players. One goal. Every session filmed — and brands that come in now are woven into that story from the first frame.</p>
+  </div>
+</div>
+
+<!-- ══ THE OPPORTUNITY ═══════════════════════════ -->
+<section class="section" id="opportunity">
+  <div class="container">
+    <div class="opportunity-grid">
+
+      <div class="reveal">
+        <p class="section-label">The Opportunity</p>
+        <h2 class="section-head">Content that<br>earns attention.</h2>
+        <div class="body-text">
+          <p>Every year the game discards players who can still play. Most disappear quietly. The Futbolist makes sure they don't — and films the whole fight back.</p>
+          <p>That story — raw, real, unscripted — is the kind of content audiences chase. Not because they're told to. Because they want to know what happens next.</p>
+          <p><strong>Brands that align with that story don't look like sponsors. They look like believers.</strong> That's a different kind of value.</p>
+        </div>
+      </div>
+
+      <div class="opportunity-pull reveal" style="transition-delay:0.1s">
+        <div class="pull-stat">
+          <span class="pull-stat-label">Combined Following</span>
+          <span class="pull-stat-value">630K+</span>
+          <span class="pull-stat-desc">Across YouTube, Instagram, and TikTok — as of June 2026.</span>
+        </div>
+        <div class="pull-stat">
+          <span class="pull-stat-label">Potential Reach</span>
+          <span class="pull-stat-value">1M+</span>
+          <span class="pull-stat-desc">Total reach including shares, discovery, and live-stream viewers. Top content exceeds 200K.</span>
+        </div>
+        <div class="pull-stat">
+          <span class="pull-stat-label">Live Sessions</span>
+          <span class="pull-stat-value">5× / Week</span>
+          <span class="pull-stat-desc">Every session streamed and recorded. 20K+ average views per post.</span>
+        </div>
+        <div class="pull-stat">
+          <span class="pull-stat-label">The Squad</span>
+          <span class="pull-stat-value">30 Players</span>
+          <span class="pull-stat-desc">15 with professional and international experience. Leagues and national teams represented worldwide.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PARTNERSHIP TYPES ══════════════════════════ -->
+<section class="section reveal" id="partnerships">
+  <div class="container">
+    <p class="section-label">What a Partnership Looks Like</p>
+    <h2 class="section-head">Three ways<br>to be part of it.</h2>
+    <div class="types-stack">
+
+      <div class="type-row">
+        <span class="type-name">Kit</span>
+        <div class="type-detail">
+          <p class="type-desc">Your logo on the training and match kit — in every session, every clip, every frame of every episode. No effort required. Just presence.</p>
+          <span class="type-note">Sleeve · Chest · Back — position determines prominence</span>
+          <p class="type-price">From $2,500 <span>/ 3-month term</span></p>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <span class="type-name">Content</span>
+        <div class="type-detail">
+          <p class="type-desc">Branded posts, player features, and a recurring challenge series built around your product. Co-created content that reaches the audience where they actually are.</p>
+          <span class="type-note">YouTube · Instagram · TikTok</span>
+          <p class="type-price">From $4,500 <span>/ 3-month term</span></p>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <span class="type-name">Full Integration</span>
+        <div class="type-detail">
+          <p class="type-desc">Title partner of Season One. Kit, content, episodes — your brand is woven into the story from the first whistle. One brand. One season. Category exclusivity available.</p>
+          <span class="type-note">Limited to one founding partner per season</span>
+          <p class="type-price">Pricing on request</p>
+        </div>
+      </div>
+
+    </div>
+    <p class="types-close">Packages are built around what makes sense for your brand — not a rate card. <strong>Reach out and we'll find the right fit together.</strong></p>
+  </div>
+</section>
+
+<!-- ══ FOUNDING WINDOW ════════════════════════════ -->
+<section class="section reveal" id="window">
+  <div class="container">
+    <div class="window-block">
+      <div>
+        <p class="window-eyebrow">Season One — 2 Founding Slots Remaining</p>
+        <h2 class="window-head">The window closes<br>when filming starts.</h2>
+        <p class="window-body">Filming begins Q3 2026. Brands that come in before then are part of the founding story — not a logo added after the audience was already built. That's the difference between a partner and a sponsor.</p>
+      </div>
+      <div class="window-cta">
+        <a href="mailto:jerryvanwolfgang@gmail.com" class="btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ════════════════════════════════════ -->
+<section class="contact-section reveal">
+  <div class="container">
+    <h2 class="contact-head">Tell us what<br>you're building.</h2>
+    <p class="contact-body">Tell us what you're building and we'll put together the right package. Annual terms also available across all partnership types.</p>
+    <a href="mailto:jerryvanwolfgang@gmail.com" class="contact-email">jerryvanwolfgang@gmail.com</a>
+    <p class="contact-note">Every serious inquiry gets a personal response.</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-brand" aria-label="The Futbolist home">
+      <img style="height:28px;width:auto" src="/assets/wolf-crest.png" alt="" aria-hidden="true" />
+      <span class="footer-wordmark">The Futbolist</span>
+    </a>
+    <nav aria-label="Footer">
+      <ul class="footer-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/apply/">Apply</a></li>
+        <li><a href="/beyourownagent/">Be Your Own Agent</a></li>
+        <li><a href="mailto:jerryvanwolfgang@gmail.com">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  burgerBtn.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    burgerBtn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
+
+</body>
+</html>

@@ -6,11 +6,23 @@
   <title>The Futbolist — Be Your Own Agent · Join the Waitlist</title>
   <meta name="description" content="A 6-week live course for footballers who are good enough but overlooked. Learn to get seen and get signed — taught by players who've done it. Join the waitlist and lock founding pricing." />
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.thefutbolist.com/beyourownagent/" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/wolf-crest.png" />
+  <link rel="apple-touch-icon" href="/assets/wolf-crest.png" />
+
   <!-- Open Graph -->
-  <meta property="og:title" content="The Futbolist — Unsigned Becomes Signed" />
+  <meta property="og:title" content="Be Your Own Agent — The Futbolist" />
   <meta property="og:description" content="A 6-week live course on how to get seen and get signed. Taught by an MLS Cup champion, a World Cup finalist, and a pro on his way up. Join the founding cohort waitlist." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.thefutbolist.com/beyourownagent/" />
+  <meta property="og:image" content="https://www.thefutbolist.com/assets/wolf-crest.png" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Be Your Own Agent — The Futbolist" />
+  <meta name="twitter:description" content="A 6-week live course on how to get seen and get signed. Join the founding cohort." />
+  <meta name="twitter:image" content="https://www.thefutbolist.com/assets/wolf-crest.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -121,8 +133,8 @@
       background: linear-gradient(to bottom, rgba(14,14,15,0.92) 0%, rgba(14,14,15,0) 100%);
       transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-crest { width: 26px; height: auto; }
+    .topbar-left { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .topbar-crest { height: 32px; width: auto; object-fit: contain; }
     .topbar-wordmark { font-family: var(--font-blackletter); font-size: 18px; color: var(--bone); text-decoration: none; }
     .topbar-cta {
       font-family: var(--font-condensed); font-size: 11px; font-weight: 700;
@@ -603,10 +615,10 @@
 
   <!-- ─── TOP BAR ─── -->
   <header class="topbar" role="banner">
-    <div class="topbar-left">
+    <a href="/" class="topbar-left" aria-label="Back to The Futbolist home">
       <img class="topbar-crest crest" src="assets/wolf-crest.png" alt="" aria-hidden="true" />
-      <a href="#top" class="topbar-wordmark" aria-label="The Futbolist home">The Futbolist</a>
-    </div>
+      <span class="topbar-wordmark">The Futbolist</span>
+    </a>
     <a href="#join" class="topbar-cta" id="topbar-join">Join the Waitlist</a>
   </header>
 
@@ -958,13 +970,18 @@
     <div class="divider"></div>
     <div class="container">
       <div class="footer-inner">
-        <img class="footer-crest crest" src="assets/wolf-crest.png" alt="" aria-hidden="true" />
-        <p class="footer-wordmark">The Futbolist</p>
+        <a href="/" aria-label="Back to The Futbolist home" style="display:contents">
+          <img class="footer-crest crest" src="assets/wolf-crest.png" alt="" aria-hidden="true" />
+          <p class="footer-wordmark">The Futbolist</p>
+        </a>
         <p class="footer-tagline">All or Nothing</p>
+        <p style="font-family:var(--font-condensed);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ash);margin-top:-4px">Be Your Own Agent &mdash; A Futbolist Course</p>
         <nav aria-label="Footer navigation">
           <ul class="footer-links">
+            <li><a href="/">The Futbolist</a></li>
             <li><a href="https://instagram.com/thefutbolist" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-            <li><a href="mailto:hello@thefutbolist.com">Contact</a></li>
+            <li><a href="/partners/">Partners</a></li>
+            <li><a href="mailto:jerry@thefutbolist.com">Contact</a></li>
           </ul>
         </nav>
         <p class="footer-copy">&copy; 2026 The Futbolist. All rights reserved.</p>
