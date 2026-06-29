@@ -186,6 +186,17 @@
       filter: drop-shadow(0 0 26px rgba(232,85,42,.5)); animation: word-stamp .42s cubic-bezier(.2,1.5,.4,1) 1.2s forwards; }
     @keyframes word-stamp { to { opacity: 1; transform: scale(1) rotate(0); } }
 
+    .hero-course-name {
+      font-family: var(--font-condensed);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-top: 16px;
+      opacity: 0;
+      animation: hero-rise 0.6s ease 1.8s forwards;
+    }
     .hero-subline { font-family: var(--font-body); font-size: clamp(15px, 1.5vw, 18px); color: var(--bone-dim);
       max-width: 460px; line-height: 1.65; margin: 26px 0 30px; }
 
@@ -635,12 +646,13 @@
         <div class="hero-content">
           <p class="eyebrow hero-eyebrow"><span class="dot"></span><span id="eyebrow-text">Be Your Own Agent · 6-Week Live Course</span></p>
 
-          <h1 class="hero-headline" id="hero-headline" title="Replay">
-            <span class="l1"><span class="word-strike">Unsigned</span></span>
-            <span class="l2"><span class="word-hinge">becomes</span><span class="word-stamp">Signed.</span></span>
+          <h1 class="hero-headline" id="hero-headline">
+            <span class="l1">No one is coming</span>
+            <span class="l2">to find you.</span>
           </h1>
 
-          <p class="hero-subline">You&rsquo;re good enough. You&rsquo;re just not seen. A six-week live course on how to get seen and get signed &mdash; taught by players who&rsquo;ve done it themselves.</p>
+          <p class="hero-subline">Good enough isn&rsquo;t the problem. Being seen is. Learn exactly how to fix that &mdash; taught by players who did.</p>
+          <p class="hero-course-name">Be Your Own Agent &mdash; A 6 Week Live Course</p>
 
           <div class="form-wrap" id="join">
             <form id="waitlist-form" novalidate>
@@ -1111,7 +1123,7 @@
     const shareBtn = document.getElementById('share-btn');
     if (shareBtn) {
       shareBtn.addEventListener('click', async () => {
-        const shareData = { title: 'The Futbolist', text: 'Unsigned becomes signed. Join The Futbolist waitlist.', url: window.location.href };
+        const shareData = { title: 'The Futbolist', text: 'No one is coming to find you. Learn how to get seen and get signed. Join The Futbolist waitlist.', url: window.location.href };
         if (navigator.share) { try { await navigator.share(shareData); } catch (_) {} }
         else {
           try { await navigator.clipboard.writeText(window.location.href); shareBtn.textContent = 'Link copied ✓'; setTimeout(() => { shareBtn.textContent = 'Share with a teammate →'; }, 2500); }
