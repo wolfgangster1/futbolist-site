@@ -826,7 +826,7 @@
         <div class="submit-area">
           <button type="submit" class="btn-primary" id="submitBtn">Reserve a Spot</button>
           <p class="submit-note">No payment now — we'll send details after confirming your spot.</p>
-          <p class="submit-error" id="submitError">Something went wrong. Please try again or email us directly.</p>
+          <p class="submit-error" id="submitError">Something went wrong and your spot wasn't reserved. Please try again — if it keeps happening, email us directly at <a href="mailto:info@thefutbolist.com" style="color:var(--ember)">info@thefutbolist.com</a>.</p>
         </div>
 
       </form>
@@ -911,23 +911,36 @@
     submitBtn.textContent = 'Sending…';
 
     try {
-      // POST to worker if endpoint is configured; otherwise accept locally
-      if (YOUTH_ENDPOINT) {
-        const res = await fetch(YOUTH_ENDPOINT, {
+      let res;
+      try {
+        res = await fetch(YOUTH_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...data, source: 'youth-form' }),
-        }).catch(() => null);
-
-        if (res && !res.ok) {
-          throw new Error('server error');
-        }
+        });
+      } catch (_) {
+        // Network / CORS failure — treat as a real error, not a silent success
+        throw new Error('network');
       }
-      // Show success
+
+      if (!res.ok) throw new Error('server');
+
+      const body = await res.json().catch(() => ({}));
+      if (body.note === 'sheet_not_configured') throw new Error('misconfigured');
+
+      // Genuine success — show confirmation
       formCard.style.display = 'none';
       success.classList.add('visible');
       window.scrollTo({ top: document.getElementById('register').offsetTop - 80, behavior: 'smooth' });
-    } catch (_) {
+
+    } catch (err) {
+      const msgs = {
+        network:       'We couldn\'t reach the server. Check your connection and try again.',
+        server:        'The server returned an error. Please try again in a moment.',
+        misconfigured: 'Registration is temporarily unavailable. Please email us at info@thefutbolist.com.',
+      };
+      submitErr.querySelector ? null : null; // noop
+      submitErr.innerHTML = msgs[err.message] || 'Something went wrong and your spot wasn\'t reserved. Please try again or email <a href="mailto:info@thefutbolist.com" style="color:var(--ember)">info@thefutbolist.com</a>.';
       submitErr.classList.add('visible');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Reserve a Spot';
