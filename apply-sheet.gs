@@ -27,6 +27,15 @@ var COLUMNS = [
   'Source',
 ];
 
+/**
+ * Prefix any cell that starts with a formula trigger character so Google Sheets
+ * never executes user-supplied content as a formula.
+ */
+function sanitizeCell(value) {
+  var s = String(value === null || value === undefined ? '' : value);
+  return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
+}
+
 function doPost(e) {
   try {
     var data   = JSON.parse(e.postData.contents);
@@ -44,20 +53,20 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date().toISOString(),
-      data.name          || '',
-      data.email         || '',
-      data.location      || '',
-      data.position      || '',
-      data.level         || '',
-      data.last_club     || '',
-      data.last_season   || '',
-      data.free_agent    || '',
-      data.relocate      || '',
-      data.available_from|| '',
-      data.film_link     || '',
-      data.extra_link    || '',
-      data.why           || '',
-      data.source        || 'apply-form',
+      sanitizeCell(data.name),
+      sanitizeCell(data.email),
+      sanitizeCell(data.location),
+      sanitizeCell(data.position),
+      sanitizeCell(data.level),
+      sanitizeCell(data.last_club),
+      sanitizeCell(data.last_season),
+      sanitizeCell(data.free_agent),
+      sanitizeCell(data.relocate),
+      sanitizeCell(data.available_from),
+      sanitizeCell(data.film_link),
+      sanitizeCell(data.extra_link),
+      sanitizeCell(data.why),
+      sanitizeCell(data.source || 'apply-form'),
     ]);
 
     return ContentService

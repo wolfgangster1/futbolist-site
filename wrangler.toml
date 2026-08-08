@@ -1,0 +1,7 @@
+name = "futbolist-worker"
+main = "kit-proxy-worker.js"
+compatibility_date = "2024-09-23"
+
+[vars]
+KIT_FORM_ID = ""          # fill in your Kit form ID
+ALLOWED_ORIGIN = "http://localhost:8080"

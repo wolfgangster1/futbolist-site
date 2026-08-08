@@ -853,7 +853,9 @@
   // See APPLY-SETUP.md for full instructions.
   // Set to '' to use preview/demo mode locally (shows success without sending data).
   // Set to the full Worker URL + /apply path once the updated Worker is deployed.
-  const APPLY_ENDPOINT = 'https://futbolist-beehiv.pixelme.workers.dev/apply';
+  const APPLY_ENDPOINT = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:8787/apply'
+    : 'https://futbolist-beehiv.pixelme.workers.dev/apply';
 
   // ── Topbar mobile nav ──────────────────────────────────────────────────────
   const burgerBtn = document.getElementById('burgerBtn');

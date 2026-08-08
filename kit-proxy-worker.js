@@ -1,11 +1,13 @@
 /**
- * Futbolist Worker (Cloudflare) — three jobs, one deployment:
+ * Futbolist Worker (Cloudflare) — four jobs, one deployment:
  *
  *  1) POST  { email }                  → adds the person to your Kit form
  *  2) GET   ?session_id=cs_...         → returns the buyer's FIRST name for the
  *                                         confirmation page (looked up from Stripe)
  *  3) POST  /apply  { application }    → validates and forwards to Google Sheets
  *                                         via Apps Script webhook
+ *  4) POST  /youth  { registration }   → validates and forwards to a separate
+ *                                         Youth Academy Google Sheet
  *
  * All keys stay here server-side, never in the public pages.
  *
@@ -16,12 +18,17 @@
  *                                   "Checkout Sessions: Read" only.
  *                                   Use the TEST key while testing, LIVE before launch.
  *   APPLY_SHEET_URL    (Secret)   — Google Apps Script web app URL (from APPLY-SETUP.md)
+ *   YOUTH_SHEET_URL    (Secret)   — Google Apps Script web app URL (from youth-sheet.gs)
  *   ALLOWED_ORIGIN     (Variable, optional) — your site origin; defaults to "*"
  */
 
 // Required fields for an application submission
 const APPLY_REQUIRED = ["name", "email", "location", "position", "level",
                         "last_club", "free_agent", "relocate", "film_link", "why"];
+
+// Required fields for a youth academy registration
+const YOUTH_REQUIRED = ["parent_name", "phone", "email",
+                        "player_name", "age", "training_type", "availability"];
 
 export default {
   async fetch(request, env) {
@@ -82,6 +89,49 @@ export default {
         return json({ ok: true }, 200, cors);
       } catch (err) {
         console.error("Apply sheet fetch error:", err);
+        return json({ error: "Internal error" }, 500, cors);
+      }
+    }
+
+    // ── 4) POST /youth: validate and forward to Youth Academy Google Sheet ──
+    if (url.pathname === "/youth" && request.method === "POST") {
+      let body;
+      try {
+        body = await request.json();
+      } catch (_) {
+        return json({ error: "Invalid request body" }, 400, cors);
+      }
+
+      // Validate required fields
+      for (const field of YOUTH_REQUIRED) {
+        if (!body[field] || !String(body[field]).trim()) {
+          return json({ error: `Missing required field: ${field}` }, 400, cors);
+        }
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
+        return json({ error: "Invalid email" }, 400, cors);
+      }
+
+      if (!env.YOUTH_SHEET_URL) {
+        console.log("YOUTH_SHEET_URL not set — registration not stored:", body.email);
+        return json({ ok: true, note: "sheet_not_configured" }, 200, cors);
+      }
+
+      try {
+        const sheetRes = await fetch(env.YOUTH_SHEET_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...body, source: body.source || "youth-form" }),
+          redirect: "follow",
+        });
+        if (!sheetRes.ok) {
+          const detail = await sheetRes.text().catch(() => "");
+          console.log("Youth sheet error", sheetRes.status, detail);
+          return json({ error: "Could not save registration" }, 502, cors);
+        }
+        return json({ ok: true }, 200, cors);
+      } catch (err) {
+        console.error("Youth sheet fetch error:", err);
         return json({ error: "Internal error" }, 500, cors);
       }
     }
