@@ -934,13 +934,13 @@
       window.scrollTo({ top: document.getElementById('register').offsetTop - 80, behavior: 'smooth' });
 
     } catch (err) {
+      const email = '<a href="mailto:jerryvanwolfgang@gmail.com" style="color:var(--ember)">jerryvanwolfgang@gmail.com</a>';
       const msgs = {
-        network:       'We couldn\'t reach the server. Check your connection and try again.',
-        server:        'The server returned an error. Please try again in a moment.',
-        misconfigured: 'Registration is temporarily unavailable. Please email us at jerryvanwolfgang@gmail.com.',
+        network:       `We couldn't reach the server. Check your connection and try again, or email us at ${email}.`,
+        server:        `The server returned an error. Please try again in a moment, or email us at ${email}.`,
+        misconfigured: `Registration is temporarily unavailable. Email us directly at ${email} and we'll get you sorted.`,
       };
-      submitErr.querySelector ? null : null; // noop
-      submitErr.innerHTML = msgs[err.message] || 'Something went wrong and your spot wasn\'t reserved. Please try again or email <a href="mailto:jerryvanwolfgang@gmail.com" style="color:var(--ember)">jerryvanwolfgang@gmail.com</a>.';
+      submitErr.innerHTML = msgs[err.message] || `Something went wrong and your spot wasn't reserved. Please try again or email us at ${email}.`;
       submitErr.classList.add('visible');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Reserve a Spot';
