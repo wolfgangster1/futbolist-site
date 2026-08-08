@@ -826,7 +826,7 @@
         <div class="submit-area">
           <button type="submit" class="btn-primary" id="submitBtn">Reserve a Spot</button>
           <p class="submit-note">No payment now — we'll send details after confirming your spot.</p>
-          <p class="submit-error" id="submitError">Something went wrong and your spot wasn't reserved. Please try again — if it keeps happening, email us directly at <a href="mailto:info@thefutbolist.com" style="color:var(--ember)">info@thefutbolist.com</a>.</p>
+          <p class="submit-error" id="submitError">Something went wrong and your spot wasn't reserved. Please try again — if it keeps happening, email us directly at <a href="mailto:jerryvanwolfgang@gmail.com" style="color:var(--ember)">jerryvanwolfgang@gmail.com</a>.</p>
         </div>
 
       </form>
@@ -937,10 +937,10 @@
       const msgs = {
         network:       'We couldn\'t reach the server. Check your connection and try again.',
         server:        'The server returned an error. Please try again in a moment.',
-        misconfigured: 'Registration is temporarily unavailable. Please email us at info@thefutbolist.com.',
+        misconfigured: 'Registration is temporarily unavailable. Please email us at jerryvanwolfgang@gmail.com.',
       };
       submitErr.querySelector ? null : null; // noop
-      submitErr.innerHTML = msgs[err.message] || 'Something went wrong and your spot wasn\'t reserved. Please try again or email <a href="mailto:info@thefutbolist.com" style="color:var(--ember)">info@thefutbolist.com</a>.';
+      submitErr.innerHTML = msgs[err.message] || 'Something went wrong and your spot wasn\'t reserved. Please try again or email <a href="mailto:jerryvanwolfgang@gmail.com" style="color:var(--ember)">jerryvanwolfgang@gmail.com</a>.';
       submitErr.classList.add('visible');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Reserve a Spot';
