@@ -1,7 +1,14 @@
-name = "futbolist-worker"
+name = "futbolist-beehiv"
 main = "kit-proxy-worker.js"
-compatibility_date = "2024-09-23"
+compatibility_date = "2026-06-24"
+preview_urls = false
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
 
 [vars]
-KIT_FORM_ID = ""          # fill in your Kit form ID
-ALLOWED_ORIGIN = "http://localhost:8080"
+KIT_FORM_ID = "9607671"
+ALLOWED_ORIGIN = "https://www.thefutbolist.com, http://localhost:8080, https://thefutbolist.com"
