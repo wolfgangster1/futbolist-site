@@ -44,7 +44,7 @@ const YOUTH_CHECKOUT_CONFIG = {
   "Founding 4-Session Pack — $190": {
     price: "price_1U2dr8CiAiGibtqg4FP84xdU",
     mode: "payment",
-    // promotionCode: TBD — add once a $190-off coupon/promo code exists.
+    promotionCode: "promo_1U2elQCiAiGibtqgsUabYCUR", // FOUNDINGMEMBER — 50% off, so $380 → $190
   },
   // "Small Group — $50/player": { price: "price_...", mode: "payment" },
   // "1:1 — $95/session":        { price: "price_...", mode: "payment" },
