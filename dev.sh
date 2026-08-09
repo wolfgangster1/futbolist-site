@@ -28,4 +28,18 @@ echo "  (wrangler runs in the foreground — press Ctrl-C to stop everything)"
 echo ""
 
 cd "$ROOT"
-wrangler dev --port 8787 --show-interactive-dev-session=false
+
+# Use the locally installed wrangler (run `npm install` once if missing) —
+# avoids depending on a global `wrangler` binary.
+WRANGLER="$ROOT/node_modules/.bin/wrangler"
+if [ ! -x "$WRANGLER" ]; then
+  echo "→ wrangler not found locally, installing (npm install)..."
+  npm install --no-fund --no-audit
+fi
+
+# NOTE: the installed wrangler version may lag behind the compatibility_date
+# in wrangler.toml (Cloudflare's real edge always supports the current date —
+# this only affects the local emulator). If `wrangler dev` fails with a
+# "compatibility date" error, uncomment the override below.
+"$WRANGLER" dev --port 8787 --show-interactive-dev-session=false
+# "$WRANGLER" dev --port 8787 --show-interactive-dev-session=false --compatibility-date=2026-05-03

@@ -1,5 +1,5 @@
 /**
- * Futbolist Worker (Cloudflare) — four jobs, one deployment:
+ * Futbolist Worker (Cloudflare) — five jobs, one deployment:
  *
  *  1) POST  { email }                  → adds the person to your Kit form
  *  2) GET   ?session_id=cs_...         → returns the buyer's FIRST name for the
@@ -8,6 +8,9 @@
  *                                         via Apps Script webhook
  *  4) POST  /youth  { registration }   → validates and forwards to a separate
  *                                         Youth Academy Google Sheet
+ *  5) GET   /youth/count               → returns how many "Founding 20" promo
+ *                                         spots have been claimed, for the live
+ *                                         counter on the Youth Academy page
  *
  * All keys stay here server-side, never in the public pages.
  *
@@ -136,24 +139,57 @@ export default {
       }
     }
 
-    // ── 1) GET: Stripe session → first name (for the confirmation page) ──
+    // ── 5) GET /youth/count: Founding 20 promo spots remaining ──
+    if (url.pathname === "/youth/count" && request.method === "GET") {
+      const FOUNDING_LIMIT = 20;
+
+      if (!env.YOUTH_SHEET_URL) {
+        return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "sheet_not_configured" }, 200, cors);
+      }
+
+      try {
+        const countUrl = `${env.YOUTH_SHEET_URL}?action=count&promo=founding20`;
+        const sheetRes = await fetch(countUrl, { method: "GET", redirect: "follow" });
+        if (!sheetRes.ok) {
+          const detail = await sheetRes.text().catch(() => "");
+          console.log("Youth count sheet error", sheetRes.status, detail);
+          return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "count_unavailable" }, 200, cors);
+        }
+        const data = await sheetRes.json().catch(() => ({}));
+        const claimed = Math.max(0, Number(data.count) || 0);
+        const remaining = Math.max(0, FOUNDING_LIMIT - claimed);
+        return json({ claimed, remaining }, 200, cors);
+      } catch (err) {
+        console.error("Youth count fetch error:", err);
+        return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "count_unavailable" }, 200, cors);
+      }
+    }
+
+    // ── 1) GET: Stripe session → buyer name + payment summary (for confirmation pages) ──
     if (request.method === "GET") {
       const sessionId = new URL(request.url).searchParams.get("session_id") || "";
-      // Always 200 with { name } so the page can gracefully fall back.
+      // Always 200 with a safe shape so the page can gracefully fall back.
+      const empty = { name: null, amount_total: null, currency: null, mode: null, client_reference_id: null };
       if (!/^cs_[A-Za-z0-9_]+$/.test(sessionId) || !env.STRIPE_SECRET_KEY) {
-        return json({ name: null }, 200, cors);
+        return json(empty, 200, cors);
       }
       try {
         const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sessionId}`, {
           headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
         });
-        if (!r.ok) return json({ name: null }, 200, cors);
+        if (!r.ok) return json(empty, 200, cors);
         const s = await r.json();
         const full = (s.customer_details && s.customer_details.name) || "";
         const first = full.trim().split(/\s+/)[0] || null;
-        return json({ name: first }, 200, cors);
+        return json({
+          name: first,
+          amount_total: typeof s.amount_total === "number" ? s.amount_total : null,
+          currency: s.currency || null,
+          mode: s.mode || null, // "payment" (one-time) or "subscription"
+          client_reference_id: s.client_reference_id || null,
+        }, 200, cors);
       } catch (_) {
-        return json({ name: null }, 200, cors);
+        return json(empty, 200, cors);
       }
     }
 

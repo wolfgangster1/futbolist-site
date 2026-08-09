@@ -1,0 +1,7 @@
+{
+  "name": "futbolist-site",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^4.86.0"
+  }
+}

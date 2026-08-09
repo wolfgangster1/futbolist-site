@@ -26,7 +26,13 @@ var COLUMNS = [
   'Preferred Coach',
   'Availability',
   'Source',
+  'Promo',
 ];
+
+// Total spots available under the "Founding 20" launch promo. Shared across
+// both founding offers (Monthly Membership + 4-Session Pack).
+var FOUNDING_PROMO_KEY   = 'founding20';
+var FOUNDING_PROMO_LIMIT = 20;
 
 /**
  * Prefix any cell that starts with a formula trigger character so Google Sheets
@@ -63,10 +69,59 @@ function doPost(e) {
       sanitizeCell(data.preferred_coach),
       sanitizeCell(data.availability),
       sanitizeCell(data.source || 'youth-form'),
+      sanitizeCell(data.promo || ''),
     ]);
 
     return ContentService
       .createTextOutput(JSON.stringify({ ok: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * GET ?action=count&promo=founding20
+ * Returns how many registrations have claimed a given promo, so the site can
+ * show "X of 20 founding spots claimed" and auto-hide the offer once it's full.
+ */
+function doGet(e) {
+  try {
+    var params  = (e && e.parameter) || {};
+    var action  = params.action || '';
+
+    if (action !== 'count') {
+      return ContentService
+        .createTextOutput(JSON.stringify({ ok: false, error: 'Unknown action' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var promoKey = params.promo || FOUNDING_PROMO_KEY;
+    var sheet    = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var lastRow  = sheet.getLastRow();
+    var count    = 0;
+
+    if (lastRow > 1) {
+      var promoCol = COLUMNS.indexOf('Promo') + 1; // 1-based column index
+      if (promoCol > 0) {
+        var values = sheet.getRange(2, promoCol, lastRow - 1, 1).getValues();
+        for (var i = 0; i < values.length; i++) {
+          if (String(values[i][0]).trim() === promoKey) count++;
+        }
+      }
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        ok: true,
+        promo: promoKey,
+        count: count,
+        limit: FOUNDING_PROMO_LIMIT,
+        remaining: Math.max(0, FOUNDING_PROMO_LIMIT - count),
+      }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
@@ -91,8 +146,16 @@ function doTest() {
         preferred_coach: '',
         availability:    'Weekday evenings, Saturday mornings',
         source:          'youth-form',
+        promo:           '',
       }),
     },
   };
   Logger.log(doPost(fake).getContent());
+}
+
+// Test the founding-20 counter manually in the Apps Script editor:
+// Select doTestCount from the dropdown → Run
+function doTestCount() {
+  var fake = { parameter: { action: 'count', promo: 'founding20' } };
+  Logger.log(doGet(fake).getContent());
 }
