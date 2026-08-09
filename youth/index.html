@@ -1087,36 +1087,24 @@
   const FOUNDING_COUNT_ENDPOINT = isLocal
     ? 'http://localhost:8787/youth/count'
     : 'https://futbolist-beehiv.pixelme.workers.dev/youth/count';
+  const CHECKOUT_ENDPOINT = isLocal
+    ? 'http://localhost:8787/youth/checkout'
+    : 'https://futbolist-beehiv.pixelme.workers.dev/youth/checkout';
 
   /* ════════════════════════════════════════════════════════════════════════
-     STRIPE PAYMENT LINKS — every training option requires payment upfront.
+     STRIPE CHECKOUT — every training option requires payment upfront.
 
-     For each option below, create a Stripe Payment Link (Dashboard → Payment
-     Links → New), then paste the URL in place of "#":
-
-       • Small Group — $50/player      → one-time price, $50
-       • 1:1 — $95/session             → one-time price, $95
-       • Founding 4-Session Pack       → one-time price, $190
-       • Founding Membership           → RECURRING price, $200/month, with a
-                                          Coupon applied on the Payment Link
-                                          (Advanced options → "Add a coupon")
-                                          set to $100 off, duration "Once" —
-                                          so month one bills $100 and every
-                                          month after bills the full $200.
-
-     On the Payment Link, set the success URL to:
-       https://www.thefutbolist.com/youth/confirmation.html?session_id={CHECKOUT_SESSION_ID}
-
-     Left as "#", that option falls back to the on-page "we'll email you a
-     payment link" success state instead of redirecting to checkout — so the
-     form never breaks while you're still setting links up one at a time.
+     Instead of static Payment Links (which can't auto-apply a coupon — Stripe
+     doesn't support that), the form POSTs to CHECKOUT_ENDPOINT above, which
+     creates a fresh Checkout Session server-side (Price + optional Promotion
+     Code baked in) and returns its URL to redirect to. The training-type →
+     Price/Promotion-Code mapping lives in kit-proxy-worker.js
+     (YOUTH_CHECKOUT_CONFIG) — add an entry there for Small Group / 1:1 once
+     their Prices exist. A training type with no entry there gets back
+     { error: "not_configured" } and falls back to the on-page "we'll email
+     you a payment link" success state, so the form never breaks while
+     options are still being set up.
      ════════════════════════════════════════════════════════════════════════ */
-  const PAYMENT_LINKS = {
-    'Small Group — $50/player':               '#', // Stripe Payment Link — $50 one-time
-    '1:1 — $95/session':                       '#', // Stripe Payment Link — $95 one-time
-    'Founding Membership — $100 first month':  'https://buy.stripe.com/9B64gycCo4mD4m92x4enS02', // Stripe Payment Link — $200/mo subscription, $100-off-once coupon
-    'Founding 4-Session Pack — $190':          'https://buy.stripe.com/6oU8wOfOA3iz4m9b3AenS01', // Stripe Payment Link — $190 one-time
-  };
 
   // ── Founding 20 — live spots-remaining counter ──────────────────────────
   const FOUNDING_LIMIT = 20;
@@ -1217,9 +1205,6 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
 
-    const paymentLink = PAYMENT_LINKS[data.training_type];
-    const hasPaymentLink = !!(paymentLink && paymentLink !== '#');
-
     try {
       let res;
       try {
@@ -1238,19 +1223,36 @@
       const body = await res.json().catch(() => ({}));
       if (body.note === 'sheet_not_configured') throw new Error('misconfigured');
 
-      // Registration is recorded — now send them to pay for their spot.
-      if (hasPaymentLink) {
-        submitBtn.textContent = 'Redirecting to payment…';
-        const reference = `youth:${data.email}:${Date.now()}`.slice(0, 200);
-        const params = new URLSearchParams({
-          prefilled_email: data.email,
-          client_reference_id: reference,
+      // Registration is recorded — now ask the server to start a real
+      // Checkout Session (this is what makes any discount apply
+      // automatically — no promo code typing, no static link).
+      submitBtn.textContent = 'Redirecting to payment…';
+      const reference = `youth:${data.email}:${Date.now()}`.slice(0, 200);
+
+      let checkoutRes;
+      try {
+        checkoutRes = await fetch(CHECKOUT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            training_type: data.training_type,
+            email: data.email,
+            reference,
+          }),
         });
-        window.location.href = `${paymentLink}?${params.toString()}`;
+      } catch (_) {
+        throw new Error('network');
+      }
+      const checkoutBody = await checkoutRes.json().catch(() => ({}));
+
+      if (checkoutRes.ok && checkoutBody.url) {
+        window.location.href = checkoutBody.url;
         return; // navigating away
       }
 
-      // Fallback — this option's payment link isn't configured yet.
+      // Fallback — this training type has no Price configured on the
+      // Worker yet (checkoutBody.error === 'not_configured'), or Stripe
+      // itself failed. Either way, don't strand the user on a dead button.
       formCard.style.display = 'none';
       success.classList.add('visible');
       window.scrollTo({ top: document.getElementById('register').offsetTop - 80, behavior: 'smooth' });
