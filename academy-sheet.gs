@@ -1,15 +1,15 @@
 /**
- * The Futbolist — Youth Academy Registration → Google Sheets
+ * The Futbolist — Academy Registration → Google Sheets
  * Google Apps Script (Apps Script web app)
  *
  * SETUP:
- *  1. Create a new Google Sheet named "Futbolist — Youth Academy Registrations"
+ *  1. Create a new Google Sheet named "Futbolist — Academy Registrations"
  *  2. Extensions → Apps Script → paste this file → Save
  *  3. Deploy → New deployment → Web app
  *     - Execute as: Me
  *     - Who has access: Anyone
  *  4. Copy the Web app URL and add it as a Secret in your Cloudflare Worker:
- *     Name: YOUTH_SHEET_URL
+ *     Name: ACADEMY_SHEET_URL
  *  5. Redeploy the Worker (wrangler deploy)
  *
  * Every time you edit this script, create a NEW deployment — don't re-deploy.
@@ -68,7 +68,7 @@ function doPost(e) {
       sanitizeCell(data.training_type),
       sanitizeCell(data.preferred_coach),
       sanitizeCell(data.availability),
-      sanitizeCell(data.source || 'youth-form'),
+      sanitizeCell(data.source || 'academy-form'),
       sanitizeCell(data.promo || ''),
     ]);
 
@@ -145,7 +145,7 @@ function doTest() {
         training_type:   'Small Group — $50/player',
         preferred_coach: '',
         availability:    'Weekday evenings, Saturday mornings',
-        source:          'youth-form',
+        source:          'academy-form',
         promo:           '',
       }),
     },

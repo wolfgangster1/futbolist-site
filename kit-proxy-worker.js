@@ -6,12 +6,12 @@
  *                                         confirmation page (looked up from Stripe)
  *  3) POST  /apply  { application }    → validates and forwards to Google Sheets
  *                                         via Apps Script webhook
- *  4) POST  /youth  { registration }   → validates and forwards to a separate
- *                                         Youth Academy Google Sheet
- *  5) GET   /youth/count               → returns how many "Founding 20" promo
+ *  4) POST  /academy  { registration } → validates and forwards to a separate
+ *                                         Academy Google Sheet
+ *  5) GET   /academy/count             → returns how many "Founding 20" promo
  *                                         spots have been claimed, for the live
- *                                         counter on the Youth Academy page
- *  6) POST  /youth/checkout { training_type, email, reference }
+ *                                         counter on the Academy page
+ *  6) POST  /academy/checkout { training_type, email, reference }
  *                                       → creates a fresh Stripe Checkout Session
  *                                         (with any promo discount applied
  *                                         automatically, server-side) and returns
@@ -28,14 +28,14 @@
  *                                   "Checkout Sessions: Read + Write".
  *                                   Use the TEST key while testing, LIVE before launch.
  *   APPLY_SHEET_URL    (Secret)   — Google Apps Script web app URL (from APPLY-SETUP.md)
- *   YOUTH_SHEET_URL    (Secret)   — Google Apps Script web app URL (from youth-sheet.gs)
+ *   ACADEMY_SHEET_URL  (Secret)   — Google Apps Script web app URL (from academy-sheet.gs)
  *   ALLOWED_ORIGIN     (Variable, optional) — your site origin; defaults to "*"
  */
 
-// Youth Academy training options → Stripe Price + (optional) Promotion Code.
+// Academy training options → Stripe Price + (optional) Promotion Code.
 // Add a `promotionCode` once you've created a coupon/code for an option; leave
 // it out (or the whole entry unset) for options that have no discount yet.
-const YOUTH_CHECKOUT_CONFIG = {
+const ACADEMY_CHECKOUT_CONFIG = {
   "Founding Membership — $100 first month": {
     price: "price_1U2dqGCiAiGibtqgSYyWIg8R",
     mode: "subscription",
@@ -54,8 +54,8 @@ const YOUTH_CHECKOUT_CONFIG = {
 const APPLY_REQUIRED = ["name", "email", "location", "position", "level",
                         "last_club", "free_agent", "relocate", "film_link", "why"];
 
-// Required fields for a youth academy registration
-const YOUTH_REQUIRED = ["parent_name", "phone", "email",
+// Required fields for an academy registration
+const ACADEMY_REQUIRED = ["parent_name", "phone", "email",
                         "player_name", "age", "training_type", "availability"];
 
 export default {
@@ -121,8 +121,8 @@ export default {
       }
     }
 
-    // ── 4) POST /youth: validate and forward to Youth Academy Google Sheet ──
-    if (url.pathname === "/youth" && request.method === "POST") {
+    // ── 4) POST /academy: validate and forward to Academy Google Sheet ──
+    if (url.pathname === "/academy" && request.method === "POST") {
       let body;
       try {
         body = await request.json();
@@ -131,7 +131,7 @@ export default {
       }
 
       // Validate required fields
-      for (const field of YOUTH_REQUIRED) {
+      for (const field of ACADEMY_REQUIRED) {
         if (!body[field] || !String(body[field]).trim()) {
           return json({ error: `Missing required field: ${field}` }, 400, cors);
         }
@@ -140,44 +140,44 @@ export default {
         return json({ error: "Invalid email" }, 400, cors);
       }
 
-      if (!env.YOUTH_SHEET_URL) {
-        console.log("YOUTH_SHEET_URL not set — registration not stored:", body.email);
+      if (!env.ACADEMY_SHEET_URL) {
+        console.log("ACADEMY_SHEET_URL not set — registration not stored:", body.email);
         return json({ ok: true, note: "sheet_not_configured" }, 200, cors);
       }
 
       try {
-        const sheetRes = await fetch(env.YOUTH_SHEET_URL, {
+        const sheetRes = await fetch(env.ACADEMY_SHEET_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...body, source: body.source || "youth-form" }),
+          body: JSON.stringify({ ...body, source: body.source || "academy-form" }),
           redirect: "follow",
         });
         if (!sheetRes.ok) {
           const detail = await sheetRes.text().catch(() => "");
-          console.log("Youth sheet error", sheetRes.status, detail);
+          console.log("Academy sheet error", sheetRes.status, detail);
           return json({ error: "Could not save registration" }, 502, cors);
         }
         return json({ ok: true }, 200, cors);
       } catch (err) {
-        console.error("Youth sheet fetch error:", err);
+        console.error("Academy sheet fetch error:", err);
         return json({ error: "Internal error" }, 500, cors);
       }
     }
 
-    // ── 5) GET /youth/count: Founding 20 promo spots remaining ──
-    if (url.pathname === "/youth/count" && request.method === "GET") {
+    // ── 5) GET /academy/count: Founding 20 promo spots remaining ──
+    if (url.pathname === "/academy/count" && request.method === "GET") {
       const FOUNDING_LIMIT = 20;
 
-      if (!env.YOUTH_SHEET_URL) {
+      if (!env.ACADEMY_SHEET_URL) {
         return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "sheet_not_configured" }, 200, cors);
       }
 
       try {
-        const countUrl = `${env.YOUTH_SHEET_URL}?action=count&promo=founding20`;
+        const countUrl = `${env.ACADEMY_SHEET_URL}?action=count&promo=founding20`;
         const sheetRes = await fetch(countUrl, { method: "GET", redirect: "follow" });
         if (!sheetRes.ok) {
           const detail = await sheetRes.text().catch(() => "");
-          console.log("Youth count sheet error", sheetRes.status, detail);
+          console.log("Academy count sheet error", sheetRes.status, detail);
           return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "count_unavailable" }, 200, cors);
         }
         const data = await sheetRes.json().catch(() => ({}));
@@ -185,16 +185,16 @@ export default {
         const remaining = Math.max(0, FOUNDING_LIMIT - claimed);
         return json({ claimed, remaining }, 200, cors);
       } catch (err) {
-        console.error("Youth count fetch error:", err);
+        console.error("Academy count fetch error:", err);
         return json({ claimed: 0, remaining: FOUNDING_LIMIT, note: "count_unavailable" }, 200, cors);
       }
     }
 
-    // ── 6) POST /youth/checkout: create a live Stripe Checkout Session ──
+    // ── 6) POST /academy/checkout: create a live Stripe Checkout Session ──
     // Static Payment Links can't have a coupon auto-applied — only a real
     // Checkout Session (created per-signup, right here) can. This is why the
     // form calls this endpoint instead of jumping straight to a fixed URL.
-    if (url.pathname === "/youth/checkout" && request.method === "POST") {
+    if (url.pathname === "/academy/checkout" && request.method === "POST") {
       let body;
       try {
         body = await request.json();
@@ -206,7 +206,7 @@ export default {
       const email = String(body.email || "").trim();
       const reference = String(body.reference || "").slice(0, 200);
 
-      const config = YOUTH_CHECKOUT_CONFIG[trainingType];
+      const config = ACADEMY_CHECKOUT_CONFIG[trainingType];
       if (!config || !config.price) {
         return json({ error: "not_configured" }, 200, cors);
       }
@@ -226,8 +226,8 @@ export default {
       params.set("mode", config.mode);
       params.set("line_items[0][price]", config.price);
       params.set("line_items[0][quantity]", "1");
-      params.set("success_url", `${siteOrigin}/youth/confirmation.html?session_id={CHECKOUT_SESSION_ID}`);
-      params.set("cancel_url", `${siteOrigin}/youth/`);
+      params.set("success_url", `${siteOrigin}/academy/confirmation.html?session_id={CHECKOUT_SESSION_ID}`);
+      params.set("cancel_url", `${siteOrigin}/academy/`);
       params.set("customer_email", email);
       if (reference) params.set("client_reference_id", reference);
       if (config.promotionCode) params.set("discounts[0][promotion_code]", config.promotionCode);
