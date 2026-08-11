@@ -745,6 +745,19 @@
     }
     .footer-nav a:hover { color: var(--bone); }
 
+    /* ── CURSOR GLOW ─────────────────────────── */
+    .cursor-glow {
+      position: fixed;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,85,42,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 700px) {
       .offers-grid { grid-template-columns: 1fr; }
@@ -766,10 +779,14 @@
       .page-header .page-subline { opacity: 1; animation: none; }
       .live-dot { animation: none; }
       .founding-card { animation: none; }
+      .cursor-glow { display: none; }
     }
   </style>
 </head>
 <body>
+
+<!-- Cursor glow (desktop only) -->
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
 <!-- ══ TOPBAR ════════════════════════════════════ -->
 <header class="topbar" id="topbar">
@@ -1057,6 +1074,17 @@
     });
   }, { threshold: 0.08 });
   revealEls.forEach(el => revealObs.observe(el));
+
+  // ── Cursor glow (desktop pointer devices only) ──────────────────────────
+  const glow = document.getElementById('cursorGlow');
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    }, { passive: true });
+  } else {
+    glow.style.display = 'none';
+  }
 
   // ── Mobile nav toggle ────────────────────────────────────────────────────
   const burger = document.getElementById('burgerBtn');
