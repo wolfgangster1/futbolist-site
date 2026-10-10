@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Futbolist — Every Great Player Was a Free Agent Once</title>
-  <meta name="description" content="America's first free-agent football team. Elite players the game gave up on, fighting their way back to a contract. Season One forming now." />
+  <title>The Futbolist FC — Free-Agent Selection</title>
+  <meta name="description" content="We're selecting pro-caliber free agents to represent The Futbolist FC against professional opposition. Train together. Compete. Put your game on film." />
 
   <!-- Canonical -->
   <link rel="canonical" href="https://www.thefutbolist.com/" />
@@ -14,14 +14,14 @@
   <link rel="apple-touch-icon" href="/assets/wolf-crest.png" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="The Futbolist — Every Great Player Was a Free Agent Once" />
-  <meta property="og:description" content="America's first free-agent football team. Elite players the game gave up on, fighting their way back to a contract. Season One forming now." />
+  <meta property="og:title" content="The Futbolist FC — Free-Agent Selection" />
+  <meta property="og:description" content="We're selecting pro-caliber free agents to represent The Futbolist FC against professional opposition. Train together. Compete. Put your game on film." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.thefutbolist.com/" />
   <meta property="og:image" content="https://www.thefutbolist.com/assets/wolf-crest.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Futbolist — Every Great Player Was a Free Agent Once" />
-  <meta name="twitter:description" content="America's first free-agent football team. Season One forming now." />
+  <meta name="twitter:title" content="The Futbolist FC — Free-Agent Selection" />
+  <meta name="twitter:description" content="We're selecting pro-caliber free agents to compete against professional opposition. Apply now." />
   <meta name="twitter:image" content="https://www.thefutbolist.com/assets/wolf-crest.png" />
 
   <!-- Fonts -->
@@ -419,6 +419,63 @@
       letter-spacing: 0.01em;
     }
 
+    /* ── SELECTION CRITERIA ───────────────────── */
+    .criteria-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 28px;
+      max-width: 620px;
+    }
+    .criteria-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: clamp(15px, 1.6vw, 17px);
+      color: var(--bone-dim);
+      line-height: 1.55;
+    }
+    .criteria-list li::before {
+      content: '—';
+      color: var(--ember);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .selection-note {
+      margin-top: 28px;
+      font-size: 14px;
+      color: var(--ash);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    /* ── FAQ ───────────────────────────────────── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      max-width: 700px;
+    }
+    .faq-item {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--line); }
+    .faq-q {
+      font-family: var(--font-condensed);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--bone);
+      margin-bottom: 8px;
+    }
+    .faq-a {
+      font-size: 15px;
+      color: var(--bone-dim);
+      line-height: 1.6;
+    }
+
     /* ── WATCH ─────────────────────────────────── */
     .watch-panel {
       margin-top: 44px;
@@ -657,53 +714,6 @@
       text-align: center;
     }
 
-    /* ── BE YOUR OWN AGENT ─────────────────────── */
-    .boya-block {
-      margin-top: 12px;
-      background: var(--carbon);
-      border: 1px solid rgba(232,85,42,0.4);
-      border-radius: 14px;
-      padding: clamp(40px, 5.5vw, 64px);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 40px;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .boya-block::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(232,85,42,0.07) 0%, transparent 55%);
-      pointer-events: none;
-    }
-    .boya-eyebrow {
-      font-family: var(--font-condensed);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--ember);
-      margin-bottom: 14px;
-    }
-    .boya-head {
-      font-family: var(--font-display);
-      font-size: clamp(30px, 3.8vw, 50px);
-      text-transform: uppercase;
-      color: var(--bone);
-      line-height: 0.93;
-      letter-spacing: 0.01em;
-      margin-bottom: 18px;
-    }
-    .boya-body {
-      font-size: 16px;
-      color: var(--bone-dim);
-      line-height: 1.65;
-      max-width: 500px;
-    }
-    .boya-cta { flex-shrink: 0; }
-
     /* ── FOLLOW ─────────────────────────────────── */
     .follow-section {
       padding: clamp(80px, 11vw, 130px) 0;
@@ -823,8 +833,6 @@
       .house-grid { grid-template-columns: 1fr; gap: 36px; }
       .house-image-block { aspect-ratio: 16/9; }
       .apply-grid { grid-template-columns: 1fr; gap: 36px; }
-      .boya-block { grid-template-columns: 1fr; gap: 28px; }
-      .boya-cta { display: flex; }
     }
     @media (max-width: 520px) {
       .topbar-wordmark { font-size: 16px; }
@@ -856,10 +864,9 @@
   <nav aria-label="Primary navigation">
     <ul class="topbar-nav">
       <li><a href="#fc">The FC</a></li>
-      <li><a href="#learn">Course</a></li>
       <li><a href="#watch">Watch</a></li>
       <li><a href="/academy/">Academy</a></li>
-      <li><a href="/beyourownagent/" class="nav-cta">Be Your Own Agent</a></li>
+      <li><a href="/apply/" class="nav-cta">Apply for Selection</a></li>
     </ul>
   </nav>
   <button class="topbar-burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false">
@@ -870,10 +877,9 @@
 <!-- Mobile nav drawer -->
 <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
   <a href="#fc" class="mobile-link">The FC</a>
-  <a href="#learn" class="mobile-link">Course</a>
   <a href="#watch" class="mobile-link">Watch</a>
   <a href="/academy/" class="mobile-link">Academy</a>
-  <a href="/beyourownagent/" class="nav-cta mobile-link">Be Your Own Agent</a>
+  <a href="/apply/" class="nav-cta mobile-link">Apply for Selection</a>
 </nav>
 
 <!-- ══ HERO ════════════════════════════════════════ -->
@@ -881,14 +887,14 @@
   <div class="hero-photo" role="img" aria-label="Football player in action"></div>
   <div class="hero-grade" aria-hidden="true"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">All or Nothing</p>
-    <h1 class="hero-headline" id="hero-heading">Every Great<br>Player Was a<br>Free Agent Once.</h1>
-    <p class="hero-subline">America's first free-agent football team, forming now. Elite players the game gave up on, training together, fighting their way back to a contract. On film from day one.</p>
+    <p class="hero-eyebrow">The Futbolist FC · Free-Agent Selection</p>
+    <h1 class="hero-headline" id="hero-heading">No Contract.<br>Still Pro Level.</h1>
+    <p class="hero-subline">We're selecting pro-caliber free agents to represent The Futbolist FC against professional opposition — a matchup in Pittsburgh is already on the schedule, with more to follow. Train together. Compete. Put your game on film.</p>
     <div class="hero-actions">
-      <a href="/beyourownagent/" class="btn-primary">Be Your Own Agent</a>
-      <a href="/apply/" class="btn-ghost">Apply to the Team</a>
+      <a href="/apply/" class="btn-primary">Apply for Selection</a>
+      <a href="#process" class="btn-ghost">See how it works ↓</a>
     </div>
-    <p class="hero-footnote">First squad forming now &nbsp;·&nbsp; Season One</p>
+    <p class="hero-footnote">For unsigned professional and high-level players. Selection required.</p>
   </div>
   <div class="scroll-cue" aria-hidden="true">
     <div class="scroll-cue-line"></div>
@@ -899,10 +905,10 @@
 <!-- ══ THE FUTBOLIST FC ════════════════════════════ -->
 <section class="section" id="fc" aria-labelledby="fc-heading">
   <div class="container">
-    <p class="section-label reveal">The Futbolist FC</p>
-    <h2 class="section-head reveal" id="fc-heading" style="transition-delay:0.08s">Every year, the game lets good players go.</h2>
+    <p class="section-label reveal">The Opportunity</p>
+    <h2 class="section-head reveal" id="fc-heading" style="transition-delay:0.08s">Your next club needs<br>to see you play.</h2>
     <div class="section-body reveal" style="transition-delay:0.14s">
-      <p>Contracts end. Phones go quiet. The Futbolist FC is where they keep going — training every day, filming every step, chasing the contract that brings them back. We don't sell the result. We show the fight.</p>
+      <p>Being out of contract shouldn't mean being out of the game. The Futbolist brings selected free agents together to train, compete, and show what they can do against professional opposition.</p>
     </div>
     <div class="house-grid" style="margin-top:clamp(32px,4vw,48px)">
       <div class="house-text">
@@ -910,66 +916,49 @@
           <div class="house-fact">
             <span class="house-fact-n">01</span>
             <div class="house-fact-text">
-              <strong>Train Together</strong>
-              Elite-level daily sessions. The standard of the team is the contract they're chasing.
+              <strong>Train</strong>
+              Prepare alongside other high-level free agents, with the standard set by the contract they're chasing.
             </div>
           </div>
           <div class="house-fact">
             <span class="house-fact-n">02</span>
             <div class="house-fact-text">
-              <strong>Film Everything</strong>
-              Every session, every moment, every step of the fight. The audience builds alongside the journey.
+              <strong>Compete</strong>
+              Earn your place in the squad. Selection is ongoing — a spot is never guaranteed.
             </div>
           </div>
           <div class="house-fact">
             <span class="house-fact-n">03</span>
             <div class="house-fact-text">
-              <strong>Get Signed</strong>
-              Visibility and performance converge until a club makes the call.
+              <strong>Be Seen</strong>
+              Every session goes on film — performances and player stories, built for scouts and clubs to see.
             </div>
           </div>
         </div>
         <div class="fc-apply reveal" style="transition-delay:0.15s">
           <div>
-            <p class="fc-apply-label">Season One — Open Applications</p>
-            <p class="fc-apply-sub">Pro or semi-pro free agents only. No club. The founding squad is forming now.</p>
+            <p class="fc-apply-label">Free-Agent Selection — Open Applications</p>
+            <p class="fc-apply-sub">Unsigned pro and high-level free agents only. Selection is ongoing.</p>
           </div>
-          <a href="/apply/" class="btn-primary">Apply to the Team</a>
+          <a href="/apply/" class="btn-primary">Apply for Selection</a>
         </div>
       </div>
       <div class="house-image-block reveal" style="transition-delay:0.1s" aria-label="Team image — coming soon">
         <img class="house-placeholder-crest" src="assets/wolf-crest.png" alt="" aria-hidden="true" />
-        <span class="house-placeholder-label">Season One — Forming Now</span>
+        <span class="house-placeholder-label">Selection Open</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ BE YOUR OWN AGENT ═══════════════════════════ -->
-<section class="section reveal" id="learn" aria-labelledby="boya-heading">
-  <div class="container">
-    <p class="section-label">Online Cohort</p>
-    <div class="boya-block">
-      <div>
-        <p class="boya-eyebrow">Be Your Own Agent</p>
-        <h2 class="boya-head" id="boya-heading">Be Your Own Agent —<br>the online cohort.</h2>
-        <p class="boya-body">Six weeks. Live sessions. Learn how to get seen and get signed — from an MLS Cup champion, a World Cup finalist, and a pro on his way up. Built for players who are good enough but overlooked.</p>
-      </div>
-      <div class="boya-cta">
-        <a href="/beyourownagent/" class="btn-primary">Explore the Cohort</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ WATCH ═══════════════════════════════════════ -->
+<!-- ══ PROOF ════════════════════════════════════════ -->
 <section class="section" id="watch" aria-labelledby="watch-heading">
   <div class="container">
-    <p class="section-label reveal">Watch</p>
+    <p class="section-label reveal">The Work</p>
     <div class="watch-panel reveal" style="transition-delay:0.08s">
-      <span class="watch-badge">Season One — Coming Soon</span>
-      <h2 class="watch-head" id="watch-heading">The comeback<br>starts soon.</h2>
-      <p class="watch-body">Season One is forming now. Follow so you're there for the first whistle, the first session, the first signing.</p>
+      <span class="watch-badge">Coming as Season One unfolds</span>
+      <h2 class="watch-head" id="watch-heading">The work is already<br>happening.</h2>
+      <p class="watch-body">Match footage, performance clips, and player stories will live here as Season One plays out. Follow along now so you don't miss the first whistle.</p>
       <div class="social-row">
         <a href="https://www.youtube.com/@Jerryvwolfgang" class="social-btn" aria-label="Follow on YouTube" target="_blank" rel="noopener noreferrer">
           <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -997,6 +986,100 @@
   </div>
 </section>
 
+<!-- ══ WHO WE'RE SELECTING ═════════════════════════ -->
+<section class="section" id="who" aria-labelledby="who-heading">
+  <div class="container">
+    <p class="section-label reveal">Selection Criteria</p>
+    <h2 class="section-head reveal" id="who-heading" style="transition-delay:0.08s">We're looking for players<br>ready to compete.</h2>
+    <div class="section-body reveal" style="transition-delay:0.14s">
+      <p>Unsigned players with the quality, fitness, and commitment to perform in a demanding team environment.</p>
+    </div>
+    <ul class="criteria-list reveal" style="transition-delay:0.2s">
+      <li>Professional experience or a strong high-level playing background</li>
+      <li>Currently a free agent and seeking a club</li>
+      <li>Ready to train and compete at a demanding standard</li>
+      <li>Willing to be part of a filmed football project</li>
+    </ul>
+    <p class="selection-note reveal" style="transition-delay:0.26s">Applications are reviewed individually. Selected players will be contacted with next steps.</p>
+  </div>
+</section>
+
+<!-- ══ HOW SELECTION WORKS ═════════════════════════ -->
+<section class="section" id="process" aria-labelledby="process-heading">
+  <div class="container">
+    <p class="section-label reveal">The Process</p>
+    <h2 class="section-head reveal" id="process-heading" style="transition-delay:0.08s">From application<br>to the pitch.</h2>
+    <div class="house-facts reveal" style="margin-top:clamp(32px,4vw,48px);max-width:620px;transition-delay:0.14s">
+      <div class="house-fact">
+        <span class="house-fact-n">01</span>
+        <div class="house-fact-text">
+          <strong>Submit Your Profile</strong>
+          Share your playing history, position, availability, and footage.
+        </div>
+      </div>
+      <div class="house-fact">
+        <span class="house-fact-n">02</span>
+        <div class="house-fact-text">
+          <strong>Earn An Invitation</strong>
+          Players who match the squad's needs are invited for evaluation.
+        </div>
+      </div>
+      <div class="house-fact">
+        <span class="house-fact-n">03</span>
+        <div class="house-fact-text">
+          <strong>Compete For Your Place</strong>
+          Selected players join the squad for training and match opportunities.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ READY TO APPLY ══════════════════════════════ -->
+<section class="follow-section reveal" id="apply-cta" aria-labelledby="apply-cta-heading">
+  <div class="container">
+    <h2 class="follow-head" id="apply-cta-heading">Ready to earn<br>your place?</h2>
+    <p class="follow-body">Send us your player profile. Show us your level.</p>
+    <a href="/apply/" class="btn-primary">Apply for Selection</a>
+    <p class="hero-footnote" style="margin-top:22px;opacity:1;animation:none">Applying does not guarantee selection or a professional contract.</p>
+  </div>
+</section>
+
+<!-- ══ FAQ ══════════════════════════════════════════ -->
+<section class="section" id="faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <p class="section-label reveal">FAQ</p>
+    <h2 class="section-head reveal" id="faq-heading" style="transition-delay:0.08s">A few things to know.</h2>
+    <div class="faq-list reveal" style="margin-top:clamp(28px,4vw,40px);transition-delay:0.14s">
+      <div class="faq-item">
+        <p class="faq-q">Who can apply?</p>
+        <p class="faq-a">Any unsigned player with a professional or strong high-level background who's ready to train and compete.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">What happens after I submit my profile?</p>
+        <p class="faq-a">We review every application individually. If you're a match for what the squad needs, you'll be invited to the next step.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Does applying guarantee selection?</p>
+        <p class="faq-a">No. Applying does not guarantee selection or a professional contract — only an evaluation.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Which matches are confirmed?</p>
+        <p class="faq-a">We're building the schedule now. A matchup in Pittsburgh is already locked in, with more to follow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BRAND LINE ═══════════════════════════════════ -->
+<section class="section" aria-hidden="true">
+  <div class="container">
+    <div class="idea-pull reveal" style="margin-top:0">
+      <p>Every great player was a free agent once.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ══ FOOTER ══════════════════════════════════════ -->
 <footer>
   <div class="footer-inner">
@@ -1007,9 +1090,9 @@
     <nav aria-label="Footer navigation">
       <ul class="footer-nav">
         <li><a href="#fc">The Futbolist FC</a></li>
-        <li><a href="#learn">Be Your Own Agent</a></li>
         <li><a href="#watch">Watch</a></li>
-        <li><a href="/partners/">Partners</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="/academy/">Academy</a></li>
         <li><a href="/partners/" class="footer-partners">Partners</a></li>
         <li><a href="mailto:jerry@thefutbolist.com">Contact</a></li>
       </ul>
